@@ -6,18 +6,16 @@ async function preloadTemperaments(apiKey) {
     const preloadedTemperaments = await Temperament.findAll();
 
     if (preloadedTemperaments.length === 0) {
-      const { data } = await axios.get(
-        `https://api.thedogapi.com/v1/breeds?api_key=${apiKey}`
-      );
+      const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds`, {
+        params: {
+          api_key: apiKey,
+        },
+      });
 
-      const temperamentsFromApi = data.flatMap(({ temperament }) =>
-        temperament?.split(", ")
-      );
-
-      const uniqueTemperaments = temperamentsFromApi
-        .filter(
-          (temp, index) => temp && temperamentsFromApi.indexOf(temp) === index
-        )
+      const uniqueTemperaments = [
+        ...new Set(data.flatMap(({ temperament }) => temperament?.split(", "))),
+      ]
+        .filter(Boolean)
         .map((name) => ({ name }));
 
       await Temperament.bulkCreate(uniqueTemperaments);
