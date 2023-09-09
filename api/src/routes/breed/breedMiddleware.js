@@ -19,11 +19,12 @@ const breedSchema = {
     weight: { type: "number", minimum: 0.1 },
   },
   required: ["name", "height", "weight"],
-  additionalProperties: false,
+  additionalProperties: true,
 };
 
 const validateBreed = async (req, res, next) => {
   const { name, height, weight } = req.body;
+  console.log(req.body);
 
   try {
     // Validar el cuerpo de la solicitud contra el esquema
