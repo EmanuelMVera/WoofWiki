@@ -1,5 +1,9 @@
 const { Breed, Temperament } = require("../../db.js");
 const httpStatus = require("http-status-codes");
+const { getBreedsFromAPI } = require("../routesServices/breedAPIService.js");
+const {
+  getBreedsFromDatabase,
+} = require("../routesServices/breedDBService.js");
 
 const addDogBreedToDatabase = async (req, res, next) => {
   try {
@@ -30,6 +34,22 @@ const addDogBreedToDatabase = async (req, res, next) => {
   }
 };
 
+const getBreeds = async (req, res, next) => {
+  try {
+    const [breedsDb, breedsApi] = await Promise.all([
+      getBreedsFromDatabase(),
+      getBreedsFromAPI(),
+    ]);
+
+    const allBreeds = [...breedsDb, ...breedsApi];
+    res.json(allBreeds);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
 module.exports = {
   addDogBreedToDatabase,
+  getBreeds,
 };
