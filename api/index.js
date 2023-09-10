@@ -1,33 +1,24 @@
 const server = require("./src/app.js");
-const { conn, Temperament } = require("./src/db.js");
-const axios = require("axios");
-const { YOUR_API_KEY } = process.env;
+const { conn } = require("./src/db.js");
+const {
+  fetchAndSaveTemperaments,
+} = require("./src/services/fetchAndSaveTemperamentsService.js");
 
-(async () => {
+async function main() {
   try {
-    // Syncing all the models at once.
+    // Sincronizar los modelos en la base de datos
     await conn.sync({ force: true });
 
-    // Extracción, aplanamiento y separación
-    const { data } = await axios.get(
-      `https://api.thedogapi.com/v1/breeds?api_key=${YOUR_API_KEY}`
-    );
-    const temperaments = [
-      ...new Set(data.flatMap(({ temperament }) => temperament?.split(", "))),
-    ];
+    // Obtener y guardar los temperamentos
+    await fetchAndSaveTemperaments();
 
-    // Convertir en objetos
-    const temperamentObjects = temperaments
-      .filter(Boolean)
-      .map((name) => ({ name }));
-
-    // Guardar en db
-    await Temperament.bulkCreate(temperamentObjects);
-
+    // Iniciar el servidor
     server.listen(3001, () => {
-      console.log(">>>>Listening at 3001");
+      console.log(">>>> Listening at 3001");
     });
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error("An error occurred in the main function:", error);
   }
-})();
+}
+
+main();

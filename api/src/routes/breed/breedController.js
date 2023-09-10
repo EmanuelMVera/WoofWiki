@@ -1,9 +1,9 @@
 const { Breed, Temperament } = require("../../db.js");
 const httpStatus = require("http-status-codes");
-const { getBreedsFromAPI } = require("../routesServices/breedAPIService.js");
+const { getBreedsFromAPI } = require("../../services/breedAPIService.js");
 const {
   getBreedsFromDatabase,
-} = require("../routesServices/breedDBService.js");
+} = require("../../services/breedDBService.js");
 
 const addDogBreedToDatabase = async (req, res, next) => {
   try {

@@ -1,4 +1,4 @@
-const { Breed, Temperament } = require("../../db.js");
+const { Breed, Temperament } = require("../db.js");
 
 // Función para obtener razas de la base de datos
 async function getBreedsFromDatabase() {

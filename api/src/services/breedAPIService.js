@@ -1,11 +1,10 @@
 const axios = require("axios");
-const { API_KEY } = process.env;
-const DOG_API_URL = `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`;
+const { BREEDS_API_URL } = require("../../config/constants");
 
 // Función para obtener razas de la API
 async function getBreedsFromAPI() {
   try {
-    const response = await axios.get(DOG_API_URL);
+    const response = await axios.get(BREEDS_API_URL);
     return response.data.map(({ id, image, name, weight, temperament }) => ({
       id,
       image: image.url,
