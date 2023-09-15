@@ -13,11 +13,11 @@ async function getBreedsFromDatabase() {
     // Mapear y formatear los resultados
     const formattedBreeds = breeds.map((breed) => ({
       id: breed.id,
+      image: breed.image,
       name: breed.name,
+      life_span: breed.life_span,
       height: breed.height,
       weight: breed.weight,
-      life_span: breed.life_span,
-      image: breed.image,
       created: breed.created,
       temperament: breed.Temperaments.map((temp) => temp.name),
     }));

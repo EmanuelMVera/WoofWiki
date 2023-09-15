@@ -14,15 +14,15 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     height: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
     },
     weight: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
     },
     life_span: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     image: {

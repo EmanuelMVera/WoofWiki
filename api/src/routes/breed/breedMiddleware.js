@@ -15,8 +15,18 @@ const breedSchema = {
       maxLength: 50,
       pattern: "^[a-zA-Z\\s]+$",
     },
-    height: { type: "number", minimum: 0.1 },
-    weight: { type: "number", minimum: 0.1 },
+    height: {
+      type: "array",
+      items: { type: "number", minimum: 0.1 },
+      minItems: 2, // Requerimos un array con al menos dos elementos (min y max)
+      maxItems: 2, // Limitamos a dos elementos (min y max)
+    },
+    weight: {
+      type: "array",
+      items: { type: "number", minimum: 0.1 },
+      minItems: 2, // Requerimos un array con al menos dos elementos (min y max)
+      maxItems: 2, // Limitamos a dos elementos (min y max)
+    },
   },
   required: ["name", "height", "weight"],
   additionalProperties: true,
@@ -24,7 +34,6 @@ const breedSchema = {
 
 const validateBreed = async (req, res, next) => {
   const { name, height, weight } = req.body;
-  console.log(req.body);
 
   try {
     // Validar el cuerpo de la solicitud contra el esquema
